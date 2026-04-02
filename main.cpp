@@ -1,7 +1,9 @@
 #include <iostream>
 #include <fstream>
-#include <iomanip>
 #include <list>
+#include <cstdlib>
+#include <ctime>
+#include <algorithm>
 #include "Goat.h"
 using namespace std;
 
@@ -15,22 +17,47 @@ int main_menu();
 
 int main() {
     srand(time(0));
-    bool again;
+    bool again = true;
 
-    // read & populate arrays for names and colors
     ifstream fin("names.txt");
     string names[SZ_NAMES];
     int i = 0;
     while (fin >> names[i++]);
     fin.close();
+
     ifstream fin1("colors.txt");
     string colors[SZ_COLORS];
     i = 0;
     while (fin1 >> colors[i++]);
     fin1.close();
 
+    list<Goat> trip;
 
-
-
+    while (again) {
+        int ch = main_menu();
+        switch (ch) {
+            case 1: add_goat(trip, names, colors); break;
+            case 2: delete_goat(trip); break;
+            case 3: display_trip(trip); break;
+            case 4: again = false; break;
+        }
+    }
     return 0;
+}
+
+int main_menu() {
+    int choice;
+    cout << endl;
+    cout << "*** GOAT MANAGER 3001 ***" << endl;
+    cout << "[1] Add a goat" << endl;
+    cout << "[2] Delete a goat" << endl;
+    cout << "[3] List goats" << endl;
+    cout << "[4] Quit" << endl;
+    cout << "Choice --> ";
+    cin >> choice;
+    while (choice < 1 || choice > 4) {
+        cout << "Invalid choice, enter 1-4: ";
+        cin >> choice;
+    }
+    return choice;
 }
