@@ -61,3 +61,41 @@ int main_menu() {
     }
     return choice;
 }
+
+void add_goat(list<Goat> &trip, string names[], string colors[]) {
+    int n = rand() % SZ_NAMES;
+    int c = rand() % SZ_COLORS;
+    int a = rand() % (MAX_AGE + 1);
+    Goat g(names[n], a, colors[c]);
+    trip.push_back(g);
+    cout << endl;
+}
+
+void display_trip(list<Goat> trip) {
+    cout << endl;
+    int i = 1;
+    for (Goat g : trip) {
+        cout << "   [" << i++ << "] " << g.get_name()
+             << " (" << g.get_age() << ", " << g.get_color() << ")" << endl;
+    }
+    cout << endl;
+}
+
+void delete_goat(list<Goat> &trip) {
+    if (trip.empty()) {
+        cout << endl;
+        return;
+    }
+    cout << endl;
+    int choice;
+    display_trip(trip);
+    cout << "Choice --> ";
+    cin >> choice;
+    while (choice < 1 || choice > trip.size()) {
+        cin >> choice;
+    }
+    auto it = trip.begin();
+    advance(it, choice - 1);
+    trip.erase(it);
+    cout << endl;
+}
